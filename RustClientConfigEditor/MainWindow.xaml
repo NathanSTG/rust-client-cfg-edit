@@ -1,0 +1,186 @@
+﻿<Controls:MetroWindow x:Class="RustClientConfigEditor.MainWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:RustClientConfigEditor.Properties"
+        xmlns:local="clr-namespace:RustClientConfigEditor"
+        Title="Rust Client Config Editor"
+        Closing="Window_Closing"
+        Height="600"
+        Width="800"
+        WindowTitleBrush="Transparent"
+        TitleForeground="White"
+        TitlebarHeight="{Binding Source={x:Static p:Settings.Default}, Path=titleBarHeight}" Icon="Icons/icon.png">
+    
+    <!-- Static Resource definitions -->
+    <Controls:MetroWindow.Resources>
+        <DataTemplate x:Key="booleanTemplate">
+            <Controls:ToggleSwitch
+                Header="{Binding PropertyID}"
+                IsChecked="{Binding PropertyValue}"
+                OnLabel="True"
+                OffLabel="False">
+            </Controls:ToggleSwitch>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="intTemplate">
+            <StackPanel>
+                <Label
+                    Content="{Binding PropertyID}"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    FontFamily="{DynamicResource DefaultFont}"
+                    FontSize="16"
+                    Foreground="{DynamicResource GrayHoverBrush}"
+                    FontWeight="SemiBold"/>
+                <Controls:NumericUpDown
+                    Value="{Binding PropertyValue}"
+                    HorizontalAlignment="Right"
+                    Margin="5"></Controls:NumericUpDown>
+            </StackPanel>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="doubleTemplate">
+            <StackPanel>
+                <Label
+                    Content="{Binding PropertyID}"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    FontFamily="{DynamicResource DefaultFont}"
+                    FontSize="16"
+                    Foreground="{DynamicResource GrayHoverBrush}"
+                    FontWeight="SemiBold"/>
+                <TextBox
+                    Text="{Binding PropertyValue}"
+                    HorizontalAlignment="Right"
+                    Margin="5"></TextBox>
+            </StackPanel>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="keyBindingTemplate">
+            <StackPanel>
+                <StackPanel
+                    Orientation="Horizontal">
+                    <Label
+                        Content="input.bind "
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        FontFamily="{DynamicResource DefaultFont}"
+                        FontSize="16"
+                        Foreground="{DynamicResource GrayHoverBrush}"
+                        FontWeight="SemiBold"/>
+                    <Label
+                        Content="{Binding PropertyID}"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        FontFamily="{DynamicResource DefaultFont}"
+                        FontSize="16"
+                        Foreground="{DynamicResource GrayHoverBrush}"
+                        FontWeight="SemiBold"/>
+                </StackPanel>
+                
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Stretch"
+                        Width="150">
+                        <Label
+                            Content="Primary: "
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"></Label>
+                        <TextBox
+                            Text="{Binding PropertyValue}"
+                            HorizontalAlignment="Stretch"
+                            Width="Auto"
+                            Margin="5"></TextBox>
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Stretch"
+                        Width="150">
+                        <Label
+                            Content="Alternate: "
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"></Label>
+                        <TextBox
+                            Text="{Binding BackupPropertyValue}"
+                            HorizontalAlignment="Stretch"
+                            Width="Auto"
+                            Margin="5"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+                
+            </StackPanel>
+        </DataTemplate>
+
+        <local:ConfigurationItemTemplateSelector 
+            BooleanDataTemplate="{StaticResource booleanTemplate}"
+            IntegerDataTemplate="{StaticResource intTemplate}"
+            DoubleDataTemplate="{StaticResource doubleTemplate}"
+            KeyBindingDataTemplate="{StaticResource keyBindingTemplate}" 
+            x:Key="templateSelector"/>
+    </Controls:MetroWindow.Resources>
+    
+    <!-- WindowCommands -->
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <!-- Spacer -->
+            <StackPanel Width="15"></StackPanel>
+            
+            <!-- Open Button -->
+            <Button
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                Width="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonSize}"
+                Height="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonSize}"
+                ToolTip="Open"
+                Name="OpenButton"
+                Click="OpenButton_Click">
+                <Image Source="Icons/open.png"
+                Width="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonImageSize}"
+                Height="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonImageSize}" />
+            </Button>
+            
+            <!-- Save Button -->
+            <Button 
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                Width="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonSize}"
+                Height="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonSize}"
+                ToolTip="Save"
+                Name="SaveButton"
+                Click="SaveButton_Click">
+                <Image Source="Icons/save.png"
+                Width="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonImageSize}"
+                Height="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonImageSize}" />
+            </Button>
+
+            <!-- Save As Button -->
+            <Button 
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                Width="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonSize}"
+                Height="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonSize}"
+                ToolTip="Save as..."
+                Name="SaveAsButton"
+                Click="SaveAsButton_Click">
+                <Image Source="Icons/save_as.png"
+                Width="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonImageSize}"
+                Height="{Binding Source={x:Static p:Settings.Default}, Path=circleButtonImageSize}" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+    
+    <!-- Window Panel -->
+    <StackPanel Name="mainPanel">        
+        
+        <!-- Main GUI area here-->
+        <ListBox
+            Name="itemsList"
+            Height="{Binding ElementName=mainPanel, Path=ActualHeight}"
+            ItemTemplateSelector="{StaticResource templateSelector}"
+            HorizontalContentAlignment="Stretch">
+            
+        </ListBox>
+        
+    </StackPanel>
+</Controls:MetroWindow>

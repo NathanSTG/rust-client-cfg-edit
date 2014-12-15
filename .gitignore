@@ -1,0 +1,4 @@
+RustClientConfigEditor/obj/
+RustClientConfigEditor/bin/
+packages/
+*.user
